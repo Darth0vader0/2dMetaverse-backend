@@ -1,0 +1,50 @@
+# Laravel
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+.env
+.env.*        # if you use multiple envs like .env.testing
+Homestead.yaml
+Homestead.json
+/.vagrant
+
+# Laravel specific
+/storage/app/public
+/storage/framework/cache/data
+/storage/logs
+/bootstrap/cache
+
+# IDEs & Editors
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Composer PHAR
+composer.phar
+
+# npm & yarn
+yarn.lock
+package-lock.json
+
+# Laravel Telescope (if using)
+storage/telescope
+
+# Laravel Mix generated files (if used)
+public/hot
+public/mix-manifest.json
+npm-debug.log
+yarn-error.log
+
+# MongoDB dump files
+*.dump
+*.bak
+*.log
+
+# Other environment config
+.phpunit.result.cache
