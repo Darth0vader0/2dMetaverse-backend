@@ -1,0 +1,4 @@
+[phases.setup]
+nixPkgs = [
+  "php83.withExtensions (pe: pe.enabled ++ [ pe.mongodb ])"
+]
