@@ -1,7 +1,0 @@
-[phases.setup]
-nixPkgs = [
-  "php83.withExtensions (pe: pe.enabled ++ [ pe.mongodb ])", 
-  "php83Packages.composer",
-  "php83Packages.php-mongodb",
-  "nodejs_18"
-]

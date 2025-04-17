@@ -41,7 +41,7 @@ return [
     'username' => env('DB_USERNAME'),
     'password' => env('DB_PASSWORD'),
     'options'  => [
-        // Additional MongoDB options can go here
+     
     ]
 ],
 
