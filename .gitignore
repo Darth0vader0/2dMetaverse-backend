@@ -1,0 +1,5 @@
+BACKEND/node_modules/
+BACKEND/dist/
+
+BACKEND/*.log
+BACKEND/.env
