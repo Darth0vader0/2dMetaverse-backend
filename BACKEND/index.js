@@ -7,7 +7,7 @@ dotenv.config();
 const cors = require('cors');
 
 
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 connectDB();
 app.use(cors({

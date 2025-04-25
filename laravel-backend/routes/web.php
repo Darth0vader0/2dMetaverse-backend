@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Events\PlayerJoined;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,4 +19,9 @@ Route::get('/', function () {
 
 Route::get('/home', function () {
     return response()->json(['message' => 'Welcome to the API!']);
+});
+
+Route::get('/join', function (Request $request) {
+    broadcast(new PlayerJoined($request->nickname))->toOthers();
+    return response()->json(['status' => 'joined']);
 });
