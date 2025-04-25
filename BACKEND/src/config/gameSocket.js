@@ -5,21 +5,27 @@ const gameSocket = (io) => {
         console.log("A user connected", socket.id);
 
         socket.on("joinMap", ({ playerName, mapId }) => {
+            console.log(`${playerName} joined map ${mapId}`);
             socket.join(mapId);
             players[socket.id] = { playerName, mapId };
-
-            console.log(`${playerName} joined map ${mapId}`);
-
+        
+            // Notify existing players in the room
             socket.to(mapId).emit("playerJoined", {
-                playerId: socket.id,
-                playerName,
+              playerId: socket.id,
+              playerName,
             });
-
-            socket.emit("joinedMap", {
-                success: true,
-                mapId,
-            });
-        });
+        
+            // Send list of existing players in this map to the new player
+            const currentPlayers = Object.entries(players)
+              .filter(([id, p]) => id !== socket.id && p.mapId === mapId)
+              .map(([id, p]) => ({
+                playerId: id,
+                playerName: p.playerName,
+              }));
+        
+            socket.emit("currentPlayers", currentPlayers);
+          });
+        
 
         socket.on("playerMoved", ({ x, y }) => {
             const player = players[socket.id];
