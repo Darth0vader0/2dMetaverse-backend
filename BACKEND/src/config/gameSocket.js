@@ -13,8 +13,8 @@ function setupGameSocket(io) {
 
       maps[mapId].players[socket.id] = {
         playerName,
-        x: 100,
-        y: 100,
+        x: 300,
+        y: -80,
         direction: 0,   // ✅ Add default
         isMoving: false // ✅ Add default
       };
@@ -30,8 +30,8 @@ function setupGameSocket(io) {
 
       maps[mapId].players[socket.id] = {
         playerName,
-        x: 100,
-        y: 100,
+        x: 300,
+        y: -80,
         direction: 0,   // ✅ Add default
         isMoving: false // ✅ Add default
       };
@@ -52,8 +52,8 @@ function setupGameSocket(io) {
       socket.to(mapId).emit("playerJoined", {
         playerId: socket.id,
         playerName,
-        x: 300,
-        y: -80,
+        x: 100,
+        y: 100,
         direction: 0,
         isMoving: false
       });
