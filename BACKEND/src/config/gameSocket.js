@@ -53,16 +53,20 @@ function setupGameSocket(io) {
       console.log(`${playerName} joined map: ${mapId}`);
     });
 
-    socket.on("playerMoved", ({ x, y }) => {
+    socket.on("playerMoved", ({ x, y, direction, isMoving }) => {
       for (const mapId in maps) {
         if (maps[mapId].players[socket.id]) {
           maps[mapId].players[socket.id].x = x;
           maps[mapId].players[socket.id].y = y;
-
+          maps[mapId].players[socket.id].direction = direction;
+          maps[mapId].players[socket.id].isMoving = isMoving;
+    
           socket.to(mapId).emit("playerMoved", {
             playerId: socket.id,
             x,
-            y
+            y,
+            direction,
+            isMoving
           });
           break;
         }
