@@ -52,8 +52,8 @@ function setupGameSocket(io) {
       socket.to(mapId).emit("playerJoined", {
         playerId: socket.id,
         playerName,
-        x: 100,
-        y: 100,
+        x: 300,
+        y: -80,
         direction: 0,
         isMoving: false
       });
