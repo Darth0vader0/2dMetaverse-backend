@@ -17,9 +17,9 @@ const io = new Server(server, {
       credentials: true
     }
   });
-const gameSocket = require('./src/config/gameSocket');
-gameSocket(io);
 
+const setupGameSocket = require('./src/config/gameSocket');
+setupGameSocket(io);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 connectDB();
