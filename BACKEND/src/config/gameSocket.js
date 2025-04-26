@@ -14,7 +14,9 @@ function setupGameSocket(io) {
       maps[mapId].players[socket.id] = {
         playerName,
         x: 100,
-        y: 100
+        y: 100,
+        direction: 0,   // ✅ Add default
+        isMoving: false // ✅ Add default
       };
 
       socket.join(mapId);
@@ -29,7 +31,9 @@ function setupGameSocket(io) {
       maps[mapId].players[socket.id] = {
         playerName,
         x: 100,
-        y: 100
+        y: 100,
+        direction: 0,   // ✅ Add default
+        isMoving: false // ✅ Add default
       };
 
       socket.join(mapId);
@@ -38,7 +42,9 @@ function setupGameSocket(io) {
         playerId: id,
         playerName: info.playerName,
         x: info.x,
-        y: info.y
+        y: info.y,
+        direction: info.direction,
+        isMoving: info.isMoving
       }));
 
       socket.emit("currentPlayers", currentPlayers);
@@ -47,7 +53,9 @@ function setupGameSocket(io) {
         playerId: socket.id,
         playerName,
         x: 100,
-        y: 100
+        y: 100,
+        direction: 0,
+        isMoving: false
       });
 
       console.log(`${playerName} joined map: ${mapId}`);
@@ -60,7 +68,7 @@ function setupGameSocket(io) {
           maps[mapId].players[socket.id].y = y;
           maps[mapId].players[socket.id].direction = direction;
           maps[mapId].players[socket.id].isMoving = isMoving;
-    
+
           socket.to(mapId).emit("playerMoved", {
             playerId: socket.id,
             x,
