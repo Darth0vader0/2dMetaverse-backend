@@ -80,7 +80,24 @@ function setupGameSocket(io) {
         }
       }
     });
-
+// player stopped moving
+    socket.on("playerStopped", () => {
+      for (const mapId in maps) {
+          if (maps[mapId].players[socket.id]) {
+              maps[mapId].players[socket.id].isMoving = false;
+  
+              socket.to(mapId).emit("playerMoved", {
+                  playerId: socket.id,
+                  x: maps[mapId].players[socket.id].x,
+                  y: maps[mapId].players[socket.id].y,
+                  direction: maps[mapId].players[socket.id].direction,
+                  isMoving: false
+              });
+  
+              break;
+          }
+      }
+  });
     socket.on("disconnect", () => {
       for (const mapId in maps) {
         if (maps[mapId].players[socket.id]) {
