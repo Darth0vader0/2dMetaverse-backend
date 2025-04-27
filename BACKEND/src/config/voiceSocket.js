@@ -24,7 +24,16 @@ const setupVoiceSocket = (io) => {
       // Broadcast the ICE candidate to all players in the same voice channel except the sender
       socket.to(voiceChannelCode).emit("iceCandidate", { candidate, sender });
     });
-
+    socket.on("leaveVoiceChannel", () => {
+        const playerData = mapForPlayersInVoiceChannel.get(socket.id);
+        if (playerData) {
+          const { voiceChannelCode, playerName } = playerData;
+          socket.leave(voiceChannelCode); // leave the voice channel
+          socket.to(voiceChannelCode).emit("playerLeftChannel", { playerName }); // notify others in the channel
+          console.log(`${playerName} left voice channel: ${voiceChannelCode}`);
+          mapForPlayersInVoiceChannel.delete(socket.id); // remove the player from the map
+        }
+      });
     // Disconnect from the voice channel
     socket.on("disconnect", () => {
       const playerData = mapForPlayersInVoiceChannel.get(socket.id);
