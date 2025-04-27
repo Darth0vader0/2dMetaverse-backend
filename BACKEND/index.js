@@ -20,6 +20,8 @@ const io = new Server(server, {
 
 const setupGameSocket = require('./src/config/gameSocket');
 setupGameSocket(io);
+const setupVoiceSocket = require('./src/config/voiceSocket');
+setupVoiceSocket(io);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 connectDB();
