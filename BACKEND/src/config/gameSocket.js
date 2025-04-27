@@ -98,6 +98,21 @@ function setupGameSocket(io) {
           }
       }
   });
+
+
+  // WebRTC Signaling: Handle ICE candidates and offer/answer exchanges
+  socket.on("sendOffer", (offer, targetSocketId) => {
+    io.to(targetSocketId).emit("receiveOffer", offer, socket.id);
+  });
+
+  socket.on("sendAnswer", (answer, targetSocketId) => {
+    io.to(targetSocketId).emit("receiveAnswer", answer);
+  });
+
+  socket.on("sendIceCandidate", (candidate, targetSocketId) => {
+    io.to(targetSocketId).emit("receiveIceCandidate", candidate);
+  });
+  
     socket.on("disconnect", () => {
       for (const mapId in maps) {
         if (maps[mapId].players[socket.id]) {
