@@ -25,7 +25,8 @@ function setupGameSocket(io) {
 
     socket.on("joinMap", ({ playerName, mapId }) => {
       if (!maps[mapId]) {
-        maps[mapId] = { players: {} };
+        socket.emit("error", { message: "Map not found" });
+        return;
       }
 
       maps[mapId].players[socket.id] = {
