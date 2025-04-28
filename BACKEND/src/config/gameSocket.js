@@ -25,7 +25,7 @@ function setupGameSocket(io) {
 
     socket.on("joinMap", ({ playerName, mapId }) => {
       if (!maps[mapId]) {
-        maps[mapId] = { players: {} };
+        maps[mapId] = { players: {} };// here we are creating a new map for player who wants to join others map ??? why
       }
 
       maps[mapId].players[socket.id] = {
