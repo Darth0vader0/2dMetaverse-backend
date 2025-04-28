@@ -25,7 +25,8 @@ function setupGameSocket(io) {
 
     socket.on("joinMap", ({ playerName, mapId }) => {
       if (!maps[mapId]) {
-        maps[mapId] = { players: {} };// here we are creating a new map for player who wants to join others map ??? why
+        socket.emit("error", { message: "Map not found" });
+        return;
       }
 
       maps[mapId].players[socket.id] = {
@@ -100,19 +101,8 @@ function setupGameSocket(io) {
   });
 
 
-  // WebRTC Signaling: Handle ICE candidates and offer/answer exchanges
-  socket.on("sendOffer", (offer, targetSocketId) => {
-    io.to(targetSocketId).emit("receiveOffer", offer, socket.id);
-  });
-
-  socket.on("sendAnswer", (answer, targetSocketId) => {
-    io.to(targetSocketId).emit("receiveAnswer", answer);
-  });
-
-  socket.on("sendIceCandidate", (candidate, targetSocketId) => {
-    io.to(targetSocketId).emit("receiveIceCandidate", candidate);
-  });
   
+
     socket.on("disconnect", () => {
       for (const mapId in maps) {
         if (maps[mapId].players[socket.id]) {
