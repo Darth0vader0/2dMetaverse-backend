@@ -14,7 +14,7 @@ const setupVoiceSocket = (io) => {
       console.log(`${playerName} created and joined voice channel: ${voiceChannelCode}`);
     });
 
-    socket.on("joinVoiceChannel", ({ voiceChannelCode, playerName, isInVoiceChannel, mapId }) => {
+    socket.on("joinVoiceChannel", ({ voiceChannelCode, playerName, mapId }) => {
       if (!mapForPlayersInVoiceChannel[voiceChannelCode]) {
         socket.emit("error", { message: "Voice channel not found" });
         return;
@@ -26,15 +26,13 @@ const setupVoiceSocket = (io) => {
       const currentPlayers = Object.entries(mapForPlayersInVoiceChannel[voiceChannelCode].players).map(([id, info]) => ({
         playerId: id,
         playerName: info.playerName,
-        isInVoiceChannel: isInVoiceChannel,
       }));
 
-      io.to(mapId).emit("currentPlayersInVoiceChannel", currentPlayers); // send the current players in the voice channel to the new player
+      socket.emit("currentPlayersInVoiceChannel", currentPlayers); // send the current players in the voice channel to the new player
 
       io.to(mapId).emit("playerJoinedVoiceChannel", {
         playerId: socket.id,
         playerName,
-        isInVoiceChannel
       });
       // notify others in the map about the new player
       mapForPlayersInVoiceChannel.set(socket.id, { playerName, voiceChannelCode, mapId }); // store the player in the map with their name and voice channel code
