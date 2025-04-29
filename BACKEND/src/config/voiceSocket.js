@@ -26,7 +26,7 @@ const setupVoiceSocket = (io) => {
       const currentPlayers = Object.entries(mapForPlayersInVoiceChannel[voiceChannelCode].players).map(([id, info]) => ({
         playerId: id,
         playerName: info.playerName,
-        isInVoiceChannel: isInVoiceChannel
+        isInVoiceChannel: isInVoiceChannel,
       }));
 
       io.to(mapId).emit("currentPlayersInVoiceChannel", currentPlayers); // send the current players in the voice channel to the new player
@@ -57,15 +57,11 @@ const setupVoiceSocket = (io) => {
       socket.to(voiceChannelCode).emit("iceCandidate", { candidate, sender });
     });
 
-    socket.on("leaveVoiceChannel", ({ mapId }) => {
-      const playerData = mapForPlayersInVoiceChannel.get(socket.id);
-      if (playerData) {
-        const { voiceChannelCode, playerName } = playerData;
+    socket.on("leaveVoiceChannel", ({ mapId ,voiceChannelCode,playerName }) => {
         socket.leave(voiceChannelCode); // leave the voice channel
         io.to(mapId).emit("playerLeftChannel", { playerName }); // notify others in the map
         console.log(`${playerName} left voice channel: ${voiceChannelCode}`);
         mapForPlayersInVoiceChannel.delete(socket.id); // remove the player from the map
-      }
     });
 
     // Disconnect from the voice channel
