@@ -11,6 +11,12 @@ const setupVoiceSocket = (io) => {
       socket.join(voiceChannelCode); // join the voice channel
 
       io.to(mapId).emit("voiceChannelCreated", { voiceChannelCode, playerName }); // notify the players in the map that the channel was created
+      const currentPlayers = Object.entries(mapForPlayersInVoiceChannel[voiceChannelCode].players).map(([id, info]) => ({
+        playerId: id,
+        playerName: info.playerName,
+      }));
+
+      socket.emit("currentPlayersInVoiceChannel", currentPlayers);
       console.log(`${playerName} created and joined voice channel: ${voiceChannelCode}`);
     });
 
