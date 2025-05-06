@@ -41,19 +41,19 @@ const setupVoiceSocket = (io) => {
 
     // Handle WebRTC signaling for voice streaming
     socket.on("webrtcOffer", ({ voiceChannelCode, offer, sender, mapId }) => {
-      // Broadcast the offer to all players in the same map except the sender
+      console.log(`Received WebRTC offer from ${sender} for channel ${voiceChannelCode}`);
       socket.to(voiceChannelCode).emit("webrtcOffer", { offer, sender });
-    });
-
-    socket.on("webrtcAnswer", ({ voiceChannelCode, answer, sender, mapId }) => {
-      // Broadcast the answer to the specific sender
+  });
+  
+  socket.on("webrtcAnswer", ({ voiceChannelCode, answer, sender, mapId }) => {
+      console.log(`Received WebRTC answer for ${sender} in channel ${voiceChannelCode}`);
       io.to(sender).emit("webrtcAnswer", { answer });
-    });
-
-    socket.on("iceCandidate", ({ voiceChannelCode, candidate, sender, mapId }) => {
-      // Broadcast the ICE candidate to all players in the same map except the sender
+  });
+  
+  socket.on("iceCandidate", ({ voiceChannelCode, candidate, sender, mapId }) => {
+      console.log(`Received ICE candidate from ${sender} for channel ${voiceChannelCode}`);
       socket.to(voiceChannelCode).emit("iceCandidate", { candidate, sender });
-    });
+  });
 
     socket.on("leaveVoiceChannel", ({ mapId ,voiceChannelCode,playerName }) => {
         socket.leave(voiceChannelCode); // leave the voice channel
