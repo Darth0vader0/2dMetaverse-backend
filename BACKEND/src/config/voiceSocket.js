@@ -47,7 +47,7 @@ const setupVoiceSocket = (io) => {
   
   socket.on("webrtcAnswer", ({ voiceChannelCode, answer, sender, mapId }) => {
       console.log(`Received WebRTC answer for ${sender} in channel ${voiceChannelCode}`);
-      io.to(sender).emit("webrtcAnswer", { answer });
+      io.to(sender).emit("webrtcAnswer", { answer,sender });
   });
   
   socket.on("iceCandidate", ({ voiceChannelCode, candidate, sender, mapId }) => {
